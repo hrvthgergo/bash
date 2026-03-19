@@ -2,21 +2,25 @@
 tokenization process
 --------------------
 
-as the beginning of the interaction above all we have to provide our intention in any of the forms below:
+as the beginning of the interaction, above all, we have to provide our intention in any of the forms below:
 - we can use a user's terminal, or
-- we can invoking bash by reading input from a string supplied as an argument to the -c invocation option of the bash command, or
+- we can invoking bash by reading input from a string supplied as an argument to the -c invocation option of the bash command (bash -c "command"), or
 - we can create an executable text file (.sh extension) containing shell commands.
 
 to process one of the inputs listed above, bash reads its input for unquoted metacharacters and uses them to divide the command line into words, operators and comments(#).
-this process is called tokenization. it is possible we meet some of these definitions in the very first time so make them clear:
-    - a token is either a word or an operator. tokens are separated by metacharacters.
-	- words: a sequence of characters treated as a unit by the shell. words may not include unquoted metacharacters.
-	- operators: a control operator or a redirection operator. operators contain at least one unquoted metacharacter.
-	- control operators: a token that performs a control function. it is; 
-		a newline or one of the following -> ‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
-	- redirection operators: ‘<’, ‘>’, '<<‘, '>>', '2>', '2>>', '<&’, ‘>&’, ‘>|’, '<<-’, '<>'.
+this process is called tokenization.
 	- metacharacters: a character that, when unquoted, separates words; 
 		space, tab, newline or one of the following characters: ‘|’, ‘&’, ‘;’, ‘(’, ‘)’, ‘<’, or ‘>’.
+		
+    - a token is either a word or an operator. tokens are separated by metacharacters.
+	- words: a sequence of characters treated as a unit by the shell. words may not include unquoted metacharacters.
+	    - reserved words: a word that has a special meaning to the shell.
+		- names/identifications: a word consisting of letters, numbers, and underscores, beginning with a letter or an underscore. shell variables, function names. 
+	- operators: a control operator or a redirection operator. operators contain at least one unquoted metacharacter.
+		- control operators: a token that performs a control function. it is; 
+		  a newline or one of the following -> ‘||’, ‘&&’, ‘&’, ‘;’, ‘;;’, ‘;&’, ‘;;&’, ‘|’, ‘|&’, ‘(’, or ‘)’.
+		- redirection operators: ‘<’, ‘>’, '<<‘, '>>', '2>', '2>>', '<&’, ‘>&’, ‘>|’, '<<-’, '<>'.
+	
 
 -------
 aliases
