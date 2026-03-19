@@ -25,7 +25,12 @@ step1) - tokenization
 -------------------------------
 step2) - command identification
 -------------------------------
-	- during command identification shell breaks the command line down into simple and compound commands.
+	- following tokenization shell takes the next step to process the input. this step is called command identification.
+	- during command identification the shell parses tokens into simple and compound commands.
+	- we grouped this huge topic into two blocks:
+	    2.1) the first one contains the following terms; simple commands, pipelines and lists of commands.
+	    2.2) the second contains the following terms; reserved words, compound commands such as: user inputs, conditions, loops and groups.
+
 	
 -------------------
 step3) - expansions
