@@ -30,7 +30,6 @@ step2) - command identification
 	- we grouped this huge topic into two blocks:
 	    2.1) the first one contains the following terms; simple commands, pipelines and lists of commands.
 	    2.2) the second contains the following terms; reserved words, compound commands such as: user inputs, conditions, loops and groups.
-
 	
 -------------------
 step3) - expansions
