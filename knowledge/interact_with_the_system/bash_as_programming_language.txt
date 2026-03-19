@@ -1,0 +1,227 @@
+--------------------------
+Keyboard shortcuts on Mac:
+--------------------------
+~ -> option+n
+^ -> option+á
+` -> option+ű
+& -> option+1
+| -> option+í
+
+Control+c -> stop the current flow/terminate a program immediately
+Control+d -> stop the current stdio with an EOF message
+
+--------
+Preface:
+--------
+- #!/bin/bash -> shebang line
+- exit codes: 0->Success, Non-Zero->Failure
+	exit code rules: https://tldp.org/LDP/abs/html/exitcodes.html
+
+- chmod <octal-code:777> <file> -> add the appropriate read/write/execute permission, by default, go with 744 (rwxr--r--) or 754 (rwxr-xr--)!!
+- PATH and /.profile modification
+	1) export PATH="$PATH:/path/to/script" or PATH="$/path/to/script:$PATH"
+		1.1) you can modify the PATH for a shell instance also, just type the command without export:
+			PATH="$PATH:/path/to/script" or PATH="$/path/to/script:$PATH"
+		     in this way you modify the PATH for the instance but does not the global PATH environment variable 
+	2) source ~/.profile
+	3) add the right execute permission to the file/script
+
+-------------------------
+Variables and Expansions:
+-------------------------
+
+- name=value -> no spaces around "=" sign and should be lowercase
+- $HOME
+- ${#param}
+- $(echo param)
+- $(( 1**2 ))
+- ~-,~+
+- {1..5..2}
+
+• Shell variables:
+	- list of bash shell variables -> https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#Bash-Variables
+	- ${IFS@Q} -> word splitting values/characters
+
+• Environment variables:
+	- global variables that ca be accessed through any process, not just shell scripts
+	- ENV_VAR=value -> user defined shell variable
+	  export ENV_VAR -> environment variable
+
+• Parameter and variable expansions: - retrieve the value stored in a parameter
+	- $parameter or ${parameter}
+	- ${#parameter} - num of characters contains by the parameter
+	- ${parameter:offset/starting character:length}
+	- list of parameter expansions: https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html
+
+• Arrays (indexed) -> store multiple different values at the same time
+	- syntax:
+		array=(elem0 elem1 elem2 ... elemN)
+
+	- use spaces to separate values
+	- indexes start from 0 and count up
+	- array expansion:
+		- ${array} -> return the first element
+		- ${array[@]} -> return all elements
+		- ${!array[@]} -> return indexes 0 1 2 3..
+		- ${array[@]:offset/start} -> return values starting from :offset through array[@] the last element, offset can be both negative and positive nuts
+		- ${array[@]:offset/start:length} -> return values starting from :offset through the defined length
+
+		- array+=(elemN [elemN+1 ... elemM]) -> appends elem* values to the end of the array
+		- array[index] -> change the value of the indexed elem
+		- unset array[index] -> remove indexed element, BUT it creates gap between indexes as index numbers do not update automatically
+
+• Command substitution: - directly reference the result of a command
+	- $(command)
+
+• Arithmetic expansion:
+	- $(( expression ))
+	- +,-,/,*,%,**,()
+
+• Tilde expansion:
+	- ~ -> $HOME
+	- ~username
+	- ~-,~+ -> $OLDPWD(previous workdir),$PWD(current workdir)
+	- ~N, ~+N, ~-N
+
+• Brace expansion: - automatically generating text according to a certain pattern
+	- a mechanism by which arbitrary strings may be generated, similar to filename expansion, but the filenames generated need not exist
+	- {1..5}
+	- {a..f}
+	- {1..5..2}
+	- echo {a,b}/{1..3}/{c..d}
+	>> a/1/c a/1/d a/2/c a/2/d a/3/c a/3/d b/1/c b/1/d b/2/c b/2/d b/3/c b/3/d
+	- {ucb/{ex,edit},lib/{ex?.?*,how_ex}}
+
+• Process substitution: - treat the output of a command(s) as a file
+	- syntax:
+		<(command)
+		<(command1 [| command2 | ... | commandN])
+
+-----------
+User Input:
+-----------
+
+• Positional parameters: -> shell assigns numbers to each command line arg that is entered
+	- $1, $2, $3, ...
+	echo "Name: $1"
+	echo "Age: $2"
+
+• Special parameters: -> created by the shell for us, unmodifiable
+	- $#: num of command line args
+	- $0: store the script name
+	- $?: returns the most recent exit code
+
+• The "read" command: -> asks for input from the user and saves it into a variable
+	- syntax: read [options] variable
+	- [options]:
+		-p "prompt" 	-> displays instruction prompt to the user
+		-t time	-> timeout in seconds
+		-s		-> secret typing
+		-N chars	-> limit to type exactly the num of chars character
+		-n chars	-> set the limit of input characters
+
+• The "select" command -> provide a 'dropdown' menu/list of options to select from
+	-syntax: 
+		PS3="Please select an option:"
+		select variable in options; do
+			commands
+			break
+		done
+
+• The "getopts" command -> enables bash to get options provided to the script from the command line
+	- syntax:
+		getopts "optstring" variable
+	
+	- variable called opt conventionally
+	- any single letter can be placed as optstring but command can process only one letter options
+	- "optstring" is case-sensitive
+	- unexpected options are stored as question mark(?) in the variable -> \?)command;;
+	- often used as part of a while
+	
+	- options can accept arguments, syntax:
+		getopts "a:b:c:"  opt
+		
+		- the provided argument is stored in the $OPTARG shell variable
+
+• The "readarray" command: -> converts the standard input stream into an array
+	- syntax:
+		readarray -t arrayname < file
+		readarray -t arrayname < <(command1 [| command2 | ... | commandN])
+	
+	- "-t" option prevent any newline character from being stored in array values
+
+------
+Logic:
+------
+
+• Chaining Commands:
+	- list operators: &,;,&&,||
+	- &: command1&command2 is going to run async
+	- ;: command1;command2 is going to run linear
+	- &&: command1&&command2 and operator, command2 run only if command1 was successful
+	- ||: command1||command2 or operator, command2 run only of command1 was unsuccessful
+
+• Test commands:
+	- syntax: [ test-expression ]
+		- test-expression operators:
+			-eq, -ne, -gt, -lt, =, !=, -z, -n, -e, -f, -d, -x
+			nums: [ 2 -eq 2], [ 2 -ne 3]
+			str: [ $a = $b ], [ $a != $b ], [ -z $a ], [ -e $a ]
+			filesys: [ -e/-f/-d/-x path/to/file ]
+
+• Ternary operator: -> statement ? IfTrue : IFFalse
+	- syntax: comandA && commandB || commandC
+
+• If statement:
+	- syntax:
+		if [ test-expression1 ];then
+			commands
+		elif [ test-expression2 ];then
+			commands
+		.
+		.
+		.
+		
+		elif [ test-expression ];then
+			commands
+		else
+			commands
+		fi
+
+	- you can chain test-expression using command chaining list operators:
+		if [ test-expression1 ] ||/&& [ test-expression2 ];then
+
+• Case statement:
+	- syntax:
+		case "$variable" in
+		pattern1)
+			commands;;
+		pattern2)
+			commands;;
+		.
+		.
+		.
+		patternN)
+			commands;;
+		*)
+			commands;;
+		esac
+
+-------------
+Loop Through:
+-------------
+
+• While loop:
+	- syntax:
+		while condition; do
+			commands
+		done
+	- condition can be test commands -> [ test commands ]
+	- to avoid infinite loops you must ensure that the condition does become false at some point
+	- usually used together with getopts or read command for condition statement
+
+• For loop: -> iterate over a list of elements
+	- syntax:
+		for variable in elem1 elem2 ... elemN; do
+			commands
+		done

@@ -1,0 +1,59 @@
+-----
+intro
+-----
+our main goal is to understand how can we interacting with the system using bash shell.
+to be able to reach a common understanding we have to get to know the process-and-progress, that the shell is going to follow to interpret your set of commands.
+we assume that we will contact the system invoking somehow the bash shell. to do so we have the following options to manage interactions:
+	- using user's terminal,
+	- reads input from a file (called shell script),
+	- reads input from a string supplied as an argument to the -c invocation option of the bash command.
+to interpret commands, sent in any previous forms, bash follows the following process, in order, step-by-step:
+	1) tokenization
+	2) command identification
+	3) expansions
+	4) quote removal
+	5) redirection
+	6) execute
+
+let see a brief summery of these steps:
+
+---------------------
+step1) - tokenization
+---------------------
+	- during tokenization shell reads its input for unquoted metacharacters and uses them to divide the command line into words, operators and comments(#).
+
+-------------------------------
+step2) - command identification
+-------------------------------
+	- during command identification shell breaks the command line down into simple and compound commands.
+	
+-------------------
+step3) - expansions
+-------------------
+	- expansion is performed on the command line after it has been split into tokens and identified commands and their arguments.
+	- there are seven (+1) kinds of expansions. the processing order is;
+		1) brace expansion
+		2) tilde expansion, parameter and variable expansion, arithmetic expansion, and command substitution (done in a left-to-right fashion) (+1 is process substitution);
+		3) word splitting;
+		4) filename expansion/globbing.
+
+----------------------
+step4) - quote removal
+----------------------
+	- during quote removal shell removes all unquoted backslashes, single quote characters, and double quote characters that did not result from a shell expansion.
+	- definitions:
+		- escape character(\): preserves the literal value of the next character that follows, with the exception of newline. if a \newline pair appears, and the backslash itself is not quoted, the \newline is treated as a line continuation.
+		- single quotes(''): preserves the literal value of each character within the quotes.a single quote may not occur between single quotes, even when preceded by a backslash.
+		- double quotes(""): preserves the literal value of all characters within the quotes, with the exception of ‘$’, ‘`’, ‘\’, and, when history expansion is enabled, ‘!’.
+
+--------------------
+step5) - redirection
+--------------------
+	- during redirection shell processes any redirection operators to determine where the standard input, standard output and standard error data streams for the command should connect to ( not all commands use every data stream ).
+	- definitions:
+		- redirection operators: ‘<’, ‘>’, '<<‘, '>>', '2>', '2>>', '<&’, ‘>&’, ‘>|’, '<<-’, '<>'.
+
+----------------
+step6) - execute
+----------------
+	- the shell has completed its processing of the command line and now it is ready to execute the command(s).

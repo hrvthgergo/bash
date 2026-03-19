@@ -1,0 +1,169 @@
+-----------------
+compound commands
+-----------------
+
+compound commands are bash’s programming constructs.
+they start with a reserved word and are terminated by the corresponding reserved word.
+compound commands are the shell programming language constructs, each construct begins with a reserved word or control operator and is terminated by a corresponding reserved word or operator.
+
+reserved words are words that have special meaning to the shell, used to begin and end the shell’s compound commands.
+e.g.: if, fi, case, esac, for, end, then, ...
+
+-----------
+User Input:
+-----------
+
+• Positional parameters: -> shell assigns numbers to each command line arg that is entered.
+	- $1, $2, $3, ...
+	echo "Name: $1"
+	echo "Age: $2"
+	- using the built-in shift command we can remove previous variables:
+		echo $1
+		shift
+		echo $1
+
+		shifttxt.sh 1 2
+
+• Special parameters: -> created by the shell for us, unmodifiable.
+	- $#: num of command line args. important especially if we use shift command after positional parameters.
+	- $@: all arguments.
+	- $0: store the script name.
+	- $$: the process id.
+	- $?: returns the most recent/last exit code. be aware, we must store the exit code immediately after running the commanf, if you intend to use it.
+		  the reason if you run e.g. echo $? twice the result is goint to be 0 always.
+
+• The "read" command: -> asks for input from the user and saves it into a variable.
+	- syntax: read [options] variable.
+	- [options]:
+		-p "prompt" 	-> displays instruction prompt to the user,
+		-t time	        -> timeout in seconds,
+		-s		        -> secret typing,
+		-N chars	    -> limit to type exactly the num of chars character,
+		-n chars	    -> set the limit of input characters.
+
+• The "select" command -> provide a 'dropdown' menu/list of options to select from using the number of the option in the list.
+	-syntax: 
+		PS3="Please select an option:"
+		select variable in options; do
+			commands
+			break
+		done
+	- list strating with 1) and counting.
+
+• The "getopts" command -> enables bash to get options provided to the script from the command line
+	- syntax:
+		getopts "optstring" variable
+	
+	- variable called opt conventionally.
+	- any single letter can be placed as optstring but command can process only one letter options.
+	- "optstring" is case-sensitive.
+	- unexpected options are stored as question mark(?) in the variable -> \?)command;;.
+	- often used as part of a while loop.
+	
+	- options can accept arguments, syntax:
+		getopts "a:b:c:"  opt
+		
+		- the provided argument is stored in the $OPTARG shell variable.
+.
+• The "readarray" command: -> converts the standard input stream into an array
+	- syntax:
+		readarray -t arrayname < file
+		readarray -t arrayname < <(command1 [| command2 | ... | commandN])
+	
+	- "-t" option prevent any newline character from being stored in array values.
+
+------
+Logic:
+------
+
+• Test commands:
+	- syntax: [ test-expression ]
+		- test-expression operators:
+			-eq, -ne, -gt, -lt, -le, -ge, =, !=, -z, -n, -e, -f, -d, -x
+			arithmetic test: [ 2 -eq 2], [ 2 -ne 3]
+			str test : [ $a = $b ], [ $a != $b ], [ -z (arg empty?)/ -n (arg is not empty?) $a ], [ -e $a ]
+			file test: [ -e (file exists?)/-f/-d/-x/-s (file not empty)/-nt (newer then modif date)/-ot path/to/file ]
+		- do not forget the spaces after [ and before ]!
+		- test command and [ are the same, and an actual program on the system.
+
+• Ternary operator: -> statement ? IfTrue : IFFalse
+	- syntax: comandA && commandB || commandC
+
+	example: [ -f /path/to/fire.sh ] && echo true || echo false
+
+• If statement:
+	- syntax:
+		if [ test-expression1 ];then
+			commands
+		elif [ test-expression2 ];then
+			commands
+		.
+		.
+		.
+		
+		elif [ test-expression ];then
+			commands
+		else
+			commands
+		fi
+
+	- to avoid empty params situation always involve "" to postitional params -> [ "$1" = hi ].
+	- we can chain test-expression using command chaining list operators and -a, -o options:
+		if [ test-expression1 ] ||/&& [ test-expression2 ];then
+		if [ test-expression1 -a/-o test-expression2 ];then
+	- we can avoid using ; if we place "then" keyword on a separate line:
+		if [ test-expression ]
+		then
+			command
+		fi
+
+• Case statement:
+	- syntax:
+		case "$variable" in
+		pattern1)
+			commands;;
+		pattern2)
+			commands;;
+		.
+		.
+		.
+		patternN)
+			commands;;
+		*)
+			commands;;
+		esac
+
+	- can do pattern matching -> some*), some|other)
+
+-------------
+Loop Through:
+-------------
+
+• until
+    - sytax:
+        until condition(s); do
+            commands;
+        done
+    - execute commands as long as condition(s) has an exit status which is not zero.
+    - condition can be test commands -> [ test commands ].
+
+• While loop:
+	- syntax:
+		while condition(s); do
+			commands;
+		done
+	- condition can be test commands -> [ test commands ].
+	- to avoid infinite loops you must ensure that the condition does become false at some point.
+	- usually used together with getopts or read command for condition statement.
+
+• For loop: -> iterate over a list of elements
+	- syntax:
+		for variable in elem1 elem2 ... elemN; do
+			commands;
+		done
+    - also supported form:
+        for ((expr1 ; expr2; ... ; exprN)); do
+        	commands;
+		done
+
+!!!break and continue missing!!!

@@ -1,0 +1,42 @@
+1) saving the content of a file into a variable:
+a=$(command arg1 arg2) or a=$(cat file.txt)
+
+2)	case "$number" in
+	[0-9]) 		echo "one digit number";;
+	[0-9][0-9]) 		echo "two digit number";;
+	[0-9][00-9][0-9])	echo "three digit number";;
+	*)			echo " a really big number";;
+	esac
+
+3) while loop, getopts and case:
+	while getopts "a:b:" opt; do
+
+		case "$opt" in
+		a) echo $OPTARG;;
+		b) echo $OPTARG;;
+		\?) echo "invalid option provided";;
+		eMac
+	
+	done
+
+4) while loop and read command(s) output or file line-by-line:
+	while read line; do
+		.
+		echo "$line"
+		.
+		.
+	done < <(command(| s)) or done < file.ext
+
+5) readarray -t filename < <(ls ~/folder))
+
+6) readarray, array and for loop:
+	readarravy -t array < list.txt
+
+	for elem in "${array[@]}"; do
+		if [-f "$elem"]; then
+			echo "$elem already exists+
+		else
+			touch "$elem".txt
+			echo "$elem.txt has been created"
+		fi
+	done

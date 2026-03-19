@@ -1,0 +1,24 @@
+0) keyboard shortcuts:
+    ~ -> option+n
+    ^ -> option+á
+    ` -> option+ű
+    & -> option+1
+    | -> option+í
+    Control+c -> stop the current flow/terminate a program inmediatelly
+    Control+d -> stop the current stdio with an EOF message
+    control+l -> redraw the shell to original status, no commands will appear
+
+1) making scripts accessible from any folder:
+    - create a script_directory folder
+    - add to your PATH:
+        export PATH="/path/to/script_directory:${PATH}"
+    - reload your ~/.profile file:
+        source ~/.profile
+    - add scripts to the script_directory folder
+    - make scripts executable
+        chmod 744 or 754 script_name.sh
+        permissions-calculator.org
+    - you can run the script from any folder by typing its name
+      example_script
+
+    

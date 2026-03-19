@@ -1,0 +1,34 @@
+# information about the os:
+---------------------------
+• uname - print information about the os
+
+# information about commands:
+-----------------------------
+• type - print the type of a command e.g. shell built-in, or the path to the command code
+• which - locate a program in the user's path
+• man - display the online manual page
+• info - manual page of shell built-in commands
+• /usr/info/doc - some packages dump their available docs into
+
+# system settings:
+------------------
+• passwd - change password
+• chsh - change shell, e.g. zsh-to-bash
+
+# folder and file actions:
+-----------------
+• ls
+• mkdir
+• rmdir
+
+• touch
+• rm
+• cp
+• mv
+
+• file
+
+• diff
+
+• locate
+• find
