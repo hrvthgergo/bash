@@ -6,3 +6,4 @@
 # Description: a template for bash scripts
 # Usage: ./bash_template.sh
 
+exit 0

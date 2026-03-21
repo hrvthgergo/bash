@@ -18,11 +18,12 @@ User Input:
 	echo "Name: $1"
 	echo "Age: $2"
 	- using the built-in shift command we can remove previous variables:
-		echo $1
-		shift
-		echo $1
+	    shifttxt.sh 1 2 3
 
-		shifttxt.sh 1 2
+		echo $1 -> 1
+		shift 2
+		echo $1 -> 3
+		
 
 • Special parameters: -> created by the shell for us, unmodifiable.
 	- $#: num of command line args. important especially if we use shift command after positional parameters.
@@ -35,11 +36,11 @@ User Input:
 • The "read" command: -> asks for input from the user and saves it into a variable.
 	- syntax: read [options] variable.
 	- [options]:
-		-p "prompt" 	-> displays instruction prompt to the user,
+		-p "prompt" 	-> displays instruction prompt to the user, usually should be the last option,
 		-t time	        -> timeout in seconds,
 		-s		        -> secret typing,
 		-N chars	    -> limit to type exactly the num of chars character,
-		-n chars	    -> set the limit of input characters.
+		-n chars	    -> set the maximum number of input characters.
 
 • The "select" command -> provide a 'dropdown' menu/list of options to select from using the number of the option in the list.
 	-syntax: 
@@ -48,7 +49,7 @@ User Input:
 			commands
 			break
 		done
-	- list strating with 1) and counting.
+	- list starting with 1) and counting. you can select a number.
 
 • The "getopts" command -> enables bash to get options provided to the script from the command line
 	- syntax:
@@ -90,6 +91,7 @@ Logic:
 	- syntax: comandA && commandB || commandC
 
 	example: [ -f /path/to/fire.sh ] && echo true || echo false
+	bool:  bool=$([[ 2 -gt  3 ]] && echo true || echo false)
 
 • If statement:
 	- syntax:
