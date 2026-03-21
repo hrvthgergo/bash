@@ -9,7 +9,7 @@ there are seven (+1) kinds of expansions. the processing order is;
 		2) tilde expansion, parameter and variable expansion, arithmetic expansion, and command substitution (done in a left-to-right fashion) (+1 process substitution);
 		3) word splitting;
 		4) filename expansion/globbing.
-mind the folowings, only brace expansion, word splitting, and filename expansion can increase the number of words of the expansion; other expansions expand a single word to a single word.
+mind the followings, only brace expansion, word splitting, and filename expansion can increase the number of words of the expansion; other expansions expand a single word to a single word.
 
 ------------------------
 variables and expansions
