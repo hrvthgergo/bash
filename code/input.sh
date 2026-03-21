@@ -9,6 +9,10 @@
 
 timeout=$1
 
+err() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
+}
+
 echo "the $0 script received $# number of arguments"
 echo "the arguments are: $@"
 echo "the first argument is: $1"
@@ -31,14 +35,14 @@ case "${day}" in
   "fri") echo "hi friday";;
   "sat") echo "hi saturday";;
   "sun") echo "hi sunday";;
-  *) echo "invalid day"
+  *) err "invalid day"
      exit 1;;
 esac
 
 read -t ${timeout} -n 10 -p "please enter your name: " name
 
 if [[ -z ${name} ]];then
-  echo "run out of ${timeout} seconds to answer"
+  err "run out of ${timeout} seconds to answer"
   exit 1
 else
   echo "you entered ${name} within ${timeout} seconds or less"
