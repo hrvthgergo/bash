@@ -82,9 +82,41 @@ variables and expansions
 		<(command)
 		<(command1 [| command2 | ... | commandN])
 
-• word splitting: after processing the preceding expansions, the shell will try to split the results of unquoted parameter expansions, unquoted arithmetic expansions and unquoted command substitutions into individual words. mind the different word splitting result of $var and "$var".
-		  ${IFS@Q} - bash will split a word using the characters stored in the IFS variable, which by default contains space, tab, and newline.
+• word splitting: after processing the preceding expansions, the shell will try to split the results of unquoted parameter expansions, unquoted arithmetic expansions and unquoted command substitutions into individual words. 
+		- mind the different word splitting result of $var and "$var".
+		- ${IFS@Q} - bash will split a word using the characters stored in the IFS variable, which by default contains space, tab, and newline.
 
 • filename expansion/globbing: any word containing one of globbing characters is interpreted as a pattern, and replaced with a list of alphabetically-sorted filenames that match the pattern (if they exist)
-			- globbing pattern characters: *, ?, [], [!]. can be extended -> shopt -s extglob.
-				- symbol(pattern1 | ... | patternN) -> symbols are: ?, *. @, +, !.
+		- globbing pattern (yes these patterns can be used in case statement as well) characters: 
+			- *: matches any string regardless of length or content, 
+			- ?: matches any single character, but requires a character to be present, 
+			- []: matches any single character within the brackets, but requires a character to be present, 
+			- [!]: matches any single character except those enclosed in brackets, but requires a character to be present. 
+			
+			character classes:
+				- [:alnum:] -> alphanumeric characters
+				- [:alpha:] -> alphabetic characters, both upper and lower case
+				- [:digit:] -> numeric characters
+				- [:lower:] -> lowercase alphabetic characters
+				- [:upper:] -> uppercase alphabetic characters
+				- [:punct:] -> punctuation characters
+				- [:space:] -> whitespace characters
+				- [:xdigit:] -> hexadecimal characters
+				- [:word:] -> includes all upper/lowercase latters as well as "_"
+
+				- when used in a pattern, character classes muts themselves be placed inside [] -> [[:digit:]]
+				
+			globbing patterns can be extended using shopt -s extglob command.
+			- symbol(pattern1 | ... | patternN) -> symbols are: 
+				- ? pattern list matches q or 1 time, 
+				- *. pattern list matches 0 or more times, 
+				- @ pattern list matches once, 
+				- + pattern list matches 1 or more times, 
+				- ! pattern list matches any string that does not match the pattern list.
+			
+				- example:
+					shopt -s extglob
+					ls *.@(jpeg|png|jpg)
+					+([[:word:]]).
+
+			- https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching
