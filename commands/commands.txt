@@ -1,0 +1,160 @@
+xControl+c -> stop the current flow/terminate a program inmediatelly
+Control+d -> stop the current stdio with an EOF message
+control+l -> redraw the shell to original status, no commands will appear
+
+About your OS:
+	- uname -srv
+
+Commands
+• type
+• which
+• passwd
+• chsh
+• history
+• cal
+• man
+	-k keyword
+	[page_number] keyword
+• info
+• /usr/info/doc - some packages dump their available docs into
+• tty
+• ls
+	-l
+	-h human readable
+
+• cut --delimiter " " --fields row_num_to_print
+• cat
+• tac
+• rev
+• tee -> command1 --options args | tee file.txt | command2 --options args
+• xargs
+• grep
+	grep expression location
+	-i case incentive 
+	-v invert, lines that do not match
+• file
+• touch	
+• mkdir -p
+• rm
+	rm file
+• rm -r[I] or rmdir (only deletes empty folders)
+
+• cp (file and folder)
+	cp file1 file2
+	cp file[*] dir
+• mv move and rename file and folder
+	mv file1 file2
+	mv file[*] dir
+• diff
+	diff file1 file2
+	-u
+• nano
+• locate -i --limit 5, -S (database refreshed once in a day) -> --existing --follow
+	• sudo updatedb
+• find -> it is a real time searching so a bit slower than locate, but powerful
+	-maxdepth use always as first option
+	-type f, d
+	-name "",  iname ""
+	-size +100k -size -5M (-type f)
+	-o -> -size -100k -o -size +5M
+	-exec command {} \;
+	-ok command {} \;
+	-print
+	
+• wc (word counting)
+	-l
+• less (space, b and quit by type q)
+	sometimes you have to try more
+	searching for words:
+		/word
+		?word
+Filters for outputs
+• head (first 10 lines)
+	-n (n = lines to print)
+	+n (starting row number)
+• tail
+	-n
+• sort
+	-r
+	-n numerical sorting, without this one the sorting is going to be ran by characters only (-nr)
+	-u
+	-k col_num[options, e.g. rnu] k->key
+	-M by month
+•tar
+
+• ps
+• kill pid
+
+• chmod <octal> 
+• umask - user file creation
+
+• sudo
+	to start a root shell cause a lot of difficulties
+
+Symbolic links -> filenames that point to other filenames.
+• ln -s target(points to) linkname(link from)
+
+Background processed
+	- command option & -> the command will run in the background and you get back the command prompt
+	- fg command can bring the prompt back
+	- redirect the background process/Jon stdin/out/err as best practice
+Piping and redirection
+	- standard data streams -> stdin(0), stdout(1), stderr(2), e.g. cat 1> output.txt or just simply cat > output.txt
+		- cat 1>> output.txt 2>> error.txt
+		- cat 0< input.txt or just simply cat < input.txt
+		- cat 0< input.txt 1> output.txt
+
+		- tty -> identify the location of the current terminal
+		- cat 0< input.txt 1> "tty output"
+
+	- piping -> connection std* data streams
+		syntax: command1 | command 2 [| command3 ...]
+	- redirection
+		- syntax: [1,2,3,&]>[|,&] output_file, [1,2,3,&]>> output_file, [0]< input_file
+		- &> file/ >& file ==== [1]> file 2>&1
+		- &>> file ==== [1]>> file 2>&1
+Wildcards
+	- *
+	- ?
+	- [a-z], [A-Z], [0-9]
+	- {,} -> brace expansion
+	- [!] -> [!9]
+	- \
+
+Aliases -> nicknames for pipelines
+	.bashrc or .bash_profile at ~
+	alias alias_name='command | comes | here'
+	new line -> new alias
+	source .bashrc or .bash_profile
+
+Archiving and compression
+
+	archive -> tar
+	compress -> gzip
+	1) make a tarball
+		tar -cvf tarball_name.tar files[1-n].txt
+		tar -tf tarball_name.tar -> test the content of the tarball_name.tar
+	2) compress the tarball (gzip, bzip2) -> compression algorithms
+		gzip tarball_name.tar	-> GNU zip!
+		bzip2 tarball_name.tar
+	3) extract
+		tar -xvf tarball_name.tar
+		gunzip tarball_name.tar.gz
+		gunzip -t(table of contents mode) -p(keep the permissions, override umask)
+		bunzip2 tarball_name.tar.bz2
+	*) in one step
+		tar -cvzf tarball_name.tar.gz files[1-n].txt
+		tar -cvjf tarball_name.tar.bz2 files[1-n].txt
+		tar -xvzf tarball_name.tar.gz
+
+	in case of tar command, to use stdin/out set the filename to dash(-)
+
+Example
+
+• date | cut --delimiter " " --fields 3
+• date | cut --delimiter " " --fields 1 > days.txt OR-SAME-RESULT date | cut > days.txt --delimiter " " --fields 1
+• cp from/* destination/ and cp -r from/ destination/ and mv ~/oldnamefolder/ ./moveasnewname
+• sudo find / -type f -size +100k -size -5M | wc -l
+• cat file[1-5].txt > new_file
+• tac my.mp3 > reversed.mp3
+• ls -l | grep .txt
